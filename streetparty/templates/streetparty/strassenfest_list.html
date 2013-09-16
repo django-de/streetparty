@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="{% url "feste" %}" method="get">
+<form action="{% url "feste" %}" method="POST">
+  {% csrf_token %}
   <input type="date" name="von"/>
   <input type="date" name="bis"/>
   <input type="submit"/>
