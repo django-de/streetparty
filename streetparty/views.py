@@ -5,8 +5,6 @@ from .models import StrassenFest
 
 
 class StrassenFestList(ListView):
-    model = StrassenFest
-
     def get_queryset(self):
         qs = StrassenFest.objects.order_by('von')
         form_data = self.request.GET
