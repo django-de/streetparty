@@ -14,3 +14,8 @@ class StrassenFestList(ListView):
             today = timezone.now()
             qs = qs.filter(von__year=today.year, von__month=today.month)
         return qs
+
+class StrassenFestListListing4(ListView):
+    def get_queryset(self):
+        today = timezone.now()
+        return StrassenFest.objects.filter(von__year=today.year, von__month=today.month).order_by('von')
