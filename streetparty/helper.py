@@ -16,7 +16,7 @@ class StrassenFestHelper():
         source = opener.open(req)
 
         # Delete all objects cause we don't if the remote id is unique.
-        StrassenFest.objects.delete()
+        StrassenFest.objects.all().delete()
 
         for data in json.load(source)['index']:
             # This API is so broken.
