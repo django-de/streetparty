@@ -1,10 +1,7 @@
 from django.conf.urls import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from .views import StrassenFestList
 
 urlpatterns = patterns('',
-    url(r'^', include('streetparty.urls')),
-
+    url('^$', StrassenFestList.as_view(), name='feste')
 )

@@ -1,15 +1,18 @@
-# Create your views here.
-import datetime
 from django.views.generic import ListView
-from streetparty.models import StrassenFest
+from django.utils import timezone
+
+from .models import StrassenFest
 
 
 class StrassenFestList(ListView):
-    #for current month
-    today = datetime.date.today()
-    queryset = StrassenFest.objects.filter(von__year=today.year, von__month=today.month).order_by("von")
+    model = StrassenFest
 
-    def post(self, request, *args, **kwargs):
-        self.object_list = StrassenFest.objects.filter(von__gte=request.POST['von'], bis__lte=request.POST['bis']).order_by('von')
-        context = self.get_context_data(object_list=self.object_list)
-        return self.render_to_response(context)
+    def get_queryset(self):
+        qs = StrassenFest.objects.order_by('von')
+        form_data = self.request.GET
+        if 'von' in form_data and 'bis' in form_data:
+            qs = qs.filter(von__gte=form_data['von'], bis__lte=form_data['bis'])
+        else:
+            today = timezone.now()
+            qs = qs.filter(von__year=today.year, von__month=today.month)
+        return qs

@@ -1,9 +1,8 @@
 from django.db import models
 
-# Create your models here.
+
 class StrassenFest(models.Model):
-    #so, id cannot overwrite the database-id
-    api_id = models.CharField(max_length=255, blank=True)
+    id = models.IntegerField(primary_key=True)
     bezeichnung = models.TextField()
     #adress-data should normally be normalized
     bezirk = models.CharField(max_length=255)
