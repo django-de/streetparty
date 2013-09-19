@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import sys
 import json
 import urllib2
@@ -11,9 +13,7 @@ from streetparty.models import StrassenFest
 
 class StrassenFestHelper():
     def update(self):
-        req = urllib2.Request(settings.STREETPARTY_DATA_URL)
-        opener = urllib2.build_opener()
-        source = opener.open(req)
+        source = urllib2.urlopen(settings.STREETPARTY_DATA_URL)
 
         # Delete all objects cause we don't if the remote id is unique.
         StrassenFest.objects.all().delete()
@@ -26,8 +26,8 @@ class StrassenFestHelper():
             try:
                 fest.full_clean()
             except ValidationError as e:
-                print >>sys.stderr, 'Failed to validate remote entry with id %s' % data['id']
-                print >>sys.stderr, str(e)
+                print ('Failed to validate remote entry with id %s' % data['id'], file=sys.stderr)
+                print (str(e), file=sys.stderr)
             else:
                 # save figures out whether to update or to insert by using
                 # the remote id as primary key.
